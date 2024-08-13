@@ -6,6 +6,7 @@ export const taskSchema = new Schema<TTask>({
     description: { type: String, required: true },
     status: { type: String, required: true },
     deadline: { type: Date, required: true },
+    priority: { type: String, required: true },
     assignedTo: { type: String },
 })
 

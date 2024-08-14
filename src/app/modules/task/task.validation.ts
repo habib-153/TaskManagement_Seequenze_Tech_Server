@@ -10,7 +10,7 @@ export const createTaskValidationSchema = z.object({
       .max(1000),
     status: z.enum([...STATUS] as [string, ...string[]], {
       required_error: 'Status is required',
-    }),
+    }).optional(),
     deadline: z.string({ required_error: 'Deadline is required' }),
     priority: z.string({ required_error: 'Priority is required' }),
     assignedTo: z.string({ required_error: 'Assigned to is required' }),

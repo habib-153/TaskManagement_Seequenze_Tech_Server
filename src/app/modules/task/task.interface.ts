@@ -4,7 +4,7 @@ export type TTask = {
     _id?: string;
     title: string;
     description: string;
-    status: TStatus;
+    status?: TStatus;
     priority: string;
     deadline: Date;
     assignedTo: string;

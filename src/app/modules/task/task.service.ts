@@ -4,15 +4,15 @@ import { Task } from './task.model';
 
 const getAllTasksFromDB = async (query: Record<string, unknown>) => {
   let result;
-  //console.log(query)
+
   if (query) {
-    const searchableFields = ['status'];
+    const searchableFields = ['priority', 'status', 'title', 'description', 'deadline'];
 
     const products = new QueryBuilder(Task.find(), query)
       .search(searchableFields)
       .filter()
       .sort()
-      .paginate()
+      //.paginate()
       .fields();
 
     result = await products.modelQuery;
@@ -28,8 +28,22 @@ const getSingleTaskFromDB = async (id: string) => {
 };
 
 const createTaskIntoDB = async (payload: TTask) => {
-  const result = await Task.create(payload);
-  return result;
+  try {
+    // Check if the task deadline has expired
+    const currentTime = new Date();
+    const taskDeadline = new Date(payload.deadline);
+
+    if (currentTime > taskDeadline) {
+      payload.status = 'timeout'; // Update status to 'timeout'
+    }else{
+      payload.status = 'to-do'
+    }
+
+    const result = await Task.create(payload);
+    return result;
+  } catch (error) {
+    throw { statusCode: 500, message: 'Error creating task' };
+  }
 };
 
 const updateTaskIntoDB = async (id: string, payload: TTask) => {

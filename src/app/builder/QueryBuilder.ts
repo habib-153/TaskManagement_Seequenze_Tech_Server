@@ -25,13 +25,13 @@ class QueryBuilder<T>{
 
     filter(){
         const queryObj = { ...this.query }
+
         //filtering
-        const excludeFields = ['date'];
+        const excludeFields = ['searchTerm', 'sort', 'page', 'limit', 'fields', 'skip'];
         excludeFields.forEach((el) => delete queryObj[el]);
-        if(queryObj.serviceId){
-            this.modelQuery = this.modelQuery.find({service: queryObj?.serviceId} as FilterQuery<T>)
+        if(queryObj!.priority){
+            this.modelQuery = this.modelQuery.find({priority: queryObj?.priority} as FilterQuery<T>)
         }
-        //console.log(this.modelQuery)
         return this
     }
 
@@ -42,15 +42,15 @@ class QueryBuilder<T>{
         return this
     }
 
-    paginate(){
-        const page = Number(this?.query?.page) || 1
-        const limit = Number(this?.query?.limit) || 5
-        const skip = (page - 1) * limit
+    // paginate(){
+    //     const page = Number(this?.query?.page) || 1
+    //     const limit = Number(this?.query?.limit) || 5
+    //     const skip = (page - 1) * limit
 
-        this.modelQuery = this.modelQuery.skip(skip).limit(limit)
+    //     this.modelQuery = this.modelQuery.skip(skip).limit(limit)
 
-        return this
-    }
+    //     return this
+    // }
 
     fields(){
         const fields = (this?.query?.fields as string)?.split(',')?.join(' ') || '-__v'

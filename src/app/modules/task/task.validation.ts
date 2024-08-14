@@ -12,7 +12,7 @@ export const createTaskValidationSchema = z.object({
       required_error: 'Status is required',
     }),
     deadline: z.string({ required_error: 'Deadline is required' }),
-    priority: z.string(),
-    assignedTo: z.string().optional(),
+    priority: z.string({ required_error: 'Priority is required' }),
+    assignedTo: z.string({ required_error: 'Assigned to is required' }),
   }),
 });

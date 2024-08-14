@@ -7,5 +7,5 @@ export type TTask = {
     status: TStatus;
     priority: string;
     deadline: Date;
-    assignedTo?: string;
+    assignedTo: string;
 }

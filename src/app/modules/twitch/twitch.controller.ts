@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import sendResponse from '../../utils/sendResponse';
 import { fetchTwitchStreams } from './twitch.service';
@@ -14,7 +13,7 @@ export const getStreamingData = async (req: Request, res: Response) => {
       message: 'Streams Retrieved Successfully',
       data: streams,
     });
-  } catch (error: any) {
-    res.status(500).json({ message: error.message });
+  } catch (error) {
+    res.status(500).json({ message: 'something went wrong' });
   }
 };

@@ -3,22 +3,14 @@ import { TTask } from './task.interface';
 import { Task } from './task.model';
 
 const getAllTasksFromDB = async (query: Record<string, unknown>) => {
-  let result;
+  const searchableFields = ['title'];
 
-  if (query) {
-    const searchableFields = ['priority', 'status', 'title', 'description', 'deadline'];
+  const products = new QueryBuilder(Task.find(), query)
+    .search(searchableFields)
+    .filter();
 
-    const products = new QueryBuilder(Task.find(), query)
-      .search(searchableFields)
-      .filter()
-      .sort()
-      //.paginate()
-      .fields();
+  const result = await products.modelQuery;
 
-    result = await products.modelQuery;
-  } else {
-    result = await Task.find();
-  }
   return result;
 };
 
@@ -35,8 +27,8 @@ const createTaskIntoDB = async (payload: TTask) => {
 
     if (currentTime > taskDeadline) {
       payload.status = 'timeout'; // Update status to 'timeout'
-    }else{
-      payload.status = 'to-do'
+    } else {
+      payload.status = 'to-do';
     }
 
     const result = await Task.create(payload);
